@@ -17,6 +17,7 @@ interface ExerciseWindowProps {
   title: string;
   note: string;
   solved?: boolean;
+  onReset?: () => void;
   children: ReactNode;
 }
 
@@ -26,6 +27,7 @@ export function ExerciseWindow({
   title,
   note,
   solved = false,
+  onReset,
   children,
 }: ExerciseWindowProps) {
   const accent = CATEGORY_ACCENT[category];
@@ -37,7 +39,7 @@ export function ExerciseWindow({
         solved ? "border-correct/40" : "border-border"
       }`}
     >
-      <div className="flex items-center gap-3 border-b border-border bg-panel-2 px-4 py-2.5">
+      <div className="flex items-center gap-2 sm:gap-3 border-b border-border bg-panel-2 px-4 py-2.5">
         <div className="flex items-center gap-1.5 shrink-0" aria-hidden="true">
           <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
           <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
@@ -51,8 +53,15 @@ export function ExerciseWindow({
         >
           {CATEGORY_LABELS[category]}
         </span>
-        {solved && (
-          <span className="shrink-0 text-xs text-correct font-medium">✓</span>
+        {solved && onReset && (
+          <button
+            type="button"
+            onClick={onReset}
+            className="shrink-0 text-xs text-correct hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky/60 rounded whitespace-nowrap"
+            title="Reset this exercise"
+          >
+            ✓ solved · reset
+          </button>
         )}
       </div>
 

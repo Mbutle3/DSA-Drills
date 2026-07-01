@@ -41,12 +41,14 @@ interface FillBlankExerciseProps {
   exercise: FillBlankExercise;
   solved: boolean;
   onSolved: () => void;
+  onUnsolved: () => void;
 }
 
 export function FillBlankExercise({
   exercise,
   solved,
   onSolved,
+  onUnsolved,
 }: FillBlankExerciseProps) {
   const blankIds = useMemo(
     () => Object.keys(exercise.answers).sort((a, b) => Number(a) - Number(b)),
@@ -93,6 +95,14 @@ export function FillBlankExercise({
     setChecked(false);
     setStatus("Solution shown — clear and try again.");
   }, [blankIds, exercise.answers]);
+
+  const handleExerciseReset = useCallback(() => {
+    onUnsolved();
+    setValues(Object.fromEntries(blankIds.map((id) => [id, ""])));
+    setChecked(false);
+    setShowSolution(false);
+    setStatus(null);
+  }, [blankIds, onUnsolved]);
 
   function blankFeedback(id: string): "correct" | "incorrect" | null {
     if (!checked) return null;
@@ -163,6 +173,7 @@ export function FillBlankExercise({
       title={exercise.title}
       note={exercise.note}
       solved={solved}
+      onReset={solved ? handleExerciseReset : undefined}
     >
       <div className="rounded-lg border border-border bg-panel-2 p-4 space-y-1 overflow-x-auto">
         {lines.map((lineParts, i) => renderLine(lineParts, i))}

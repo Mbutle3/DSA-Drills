@@ -11,10 +11,12 @@ function ExerciseCard({
   exercise,
   solved,
   onSolved,
+  onUnsolved,
 }: {
   exercise: Exercise;
   solved: boolean;
   onSolved: () => void;
+  onUnsolved: () => void;
 }) {
   if (exercise.type === "reorder") {
     return (
@@ -22,6 +24,7 @@ function ExerciseCard({
         exercise={exercise}
         solved={solved}
         onSolved={onSolved}
+        onUnsolved={onUnsolved}
       />
     );
   }
@@ -31,6 +34,7 @@ function ExerciseCard({
       exercise={exercise}
       solved={solved}
       onSolved={onSolved}
+      onUnsolved={onUnsolved}
     />
   );
 }
@@ -40,11 +44,13 @@ function CategoryPanel({
   active,
   solved,
   markSolved,
+  markUnsolved,
 }: {
   category: Category;
   active: boolean;
   solved: Set<string>;
   markSolved: (id: string) => void;
+  markUnsolved: (id: string) => void;
 }) {
   const exercises = EXERCISES[category];
 
@@ -61,6 +67,7 @@ function CategoryPanel({
           exercise={exercise}
           solved={solved.has(exercise.id)}
           onSolved={() => markSolved(exercise.id)}
+          onUnsolved={() => markUnsolved(exercise.id)}
         />
       ))}
     </section>
@@ -70,18 +77,31 @@ function CategoryPanel({
 export default function App() {
   const [activeCategory, setActiveCategory] = useState<Category>("ds");
   const [resetKey, setResetKey] = useState(0);
-  const { solved, markSolved, reset, solvedCount } = useProgress();
+  const {
+    solved,
+    markSolved,
+    markUnsolved,
+    resetProgress,
+    exportProgress,
+    importProgress,
+    solvedCount,
+  } = useProgress();
 
-  const handleReset = useCallback(() => {
-    reset();
+  const handleResetAll = useCallback(() => {
+    resetProgress();
     setActiveCategory("ds");
     setResetKey((k) => k + 1);
-  }, [reset]);
+  }, [resetProgress]);
 
   return (
     <div className="min-h-screen bg-ink dot-grid">
       <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-12">
-        <Header solvedCount={solvedCount} onReset={handleReset} />
+        <Header
+          solvedCount={solvedCount}
+          onExport={exportProgress}
+          onImport={importProgress}
+          onResetAll={handleResetAll}
+        />
         <Tabs
           active={activeCategory}
           onChange={setActiveCategory}
@@ -93,6 +113,7 @@ export default function App() {
           active={activeCategory === "ds"}
           solved={solved}
           markSolved={markSolved}
+          markUnsolved={markUnsolved}
         />
         <CategoryPanel
           key={`algo-${resetKey}`}
@@ -100,6 +121,7 @@ export default function App() {
           active={activeCategory === "algo"}
           solved={solved}
           markSolved={markSolved}
+          markUnsolved={markUnsolved}
         />
         <CategoryPanel
           key={`oneliner-${resetKey}`}
@@ -107,6 +129,7 @@ export default function App() {
           active={activeCategory === "oneliner"}
           solved={solved}
           markSolved={markSolved}
+          markUnsolved={markUnsolved}
         />
       </div>
     </div>

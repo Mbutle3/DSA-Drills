@@ -112,12 +112,14 @@ interface ReorderExerciseProps {
   exercise: ReorderExercise;
   solved: boolean;
   onSolved: () => void;
+  onUnsolved: () => void;
 }
 
 export function ReorderExercise({
   exercise,
   solved,
   onSolved,
+  onUnsolved,
 }: ReorderExerciseProps) {
   const [order, setOrder] = useState<number[]>(() =>
     shuffleIndices(exercise.lines.length),
@@ -171,6 +173,14 @@ export function ReorderExercise({
     setStatus("Solution shown — try shuffling and solving again.");
   }, [exercise.lines]);
 
+  const handleExerciseReset = useCallback(() => {
+    onUnsolved();
+    setOrder(shuffleIndices(exercise.lines.length));
+    setChecked(false);
+    setShowSolution(false);
+    setStatus(null);
+  }, [exercise.lines.length, onUnsolved]);
+
   const displayOrder = showSolution
     ? exercise.lines.map((_, i) => i)
     : order;
@@ -187,6 +197,7 @@ export function ReorderExercise({
       title={exercise.title}
       note={exercise.note}
       solved={solved}
+      onReset={solved ? handleExerciseReset : undefined}
     >
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext items={displayOrder} strategy={verticalListSortingStrategy}>
