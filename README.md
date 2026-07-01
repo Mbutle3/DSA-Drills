@@ -7,6 +7,8 @@ A local, self-quizzing web app for practicing common data structures, algorithms
 
 Progress is saved automatically in `localStorage` and survives page refreshes. You can also export and import a JSON save file to move progress between browsers or machines.
 
+Use the **sun/moon toggle** in the header to switch between dark and light mode. Your choice is remembered in `localStorage` (`dsa-drills:theme`).
+
 Each main category tab (Data Structures, Algorithms, Python One-Liners) has **topic filter chips** below the tabs — use them to focus on one group at a time (e.g. Trees, Dynamic Programming, Strings) or show **All** to see every group.
 
 ## Setup
