@@ -864,6 +864,47 @@ export const CHEAT_SHEET_SECTIONS: CheatSheetSection[] = [
           "Works with key= like sorted",
         ],
       },
+      {
+        title: "heapify / heappushpop / merge",
+        when: "Build heap in O(n), stream push-pop, merge sorted lists.",
+        mnemonic: "heapify in place; heappushpop for streaming; merge for k-way merge.",
+        points: [
+          "heap[0] is always smallest after heapify",
+          "heappushpop beats separate push + pop",
+        ],
+      },
+    ],
+  },
+  {
+    id: "stdlib-interview",
+    label: "Interview stdlib",
+    category: "oneliner",
+    groupMnemonic: "bisect for sorted inserts, deque for BFS, lru_cache for memo, re for parsing.",
+    entries: [
+      {
+        title: "bisect",
+        when: "Binary search insertion points on sorted lists.",
+        mnemonic: "bisect_left = first slot, bisect_right = after last equal, insort = insert in order.",
+        points: ["O(log n) search on sorted data", "insort is O(n) due to shifting"],
+      },
+      {
+        title: "collections extras",
+        when: "Queues, records, grouping, multiset expansion.",
+        mnemonic: "deque.popleft for BFS; namedtuple for light structs; Counter.elements() expands counts.",
+        points: ["deque(maxlen=k) for sliding windows", "defaultdict(list) for adjacency-style grouping"],
+      },
+      {
+        title: "functools",
+        when: "Memoization and partial application.",
+        mnemonic: "@lru_cache(maxsize=None) memoizes; partial(fn, arg) freezes args.",
+        points: ["lru_cache turns naive recursion into DP", "partial cleaner than lambda for fixed args"],
+      },
+      {
+        title: "re",
+        when: "Parse, validate, or transform string patterns.",
+        mnemonic: "search = first match, findall = all matches, sub = replace.",
+        points: ["Raw strings r'\\d+' avoid escape headaches", "Compile pattern if reused in a loop"],
+      },
     ],
   },
   {

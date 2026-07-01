@@ -58,13 +58,7 @@ export const ALGO_SECTIONS: ExerciseSection<AlgoGroupId>[] = [
           "        arr[i], arr[min_idx] = arr[min_idx], arr[i]",
           "    return arr"
         ]
-      }
-    ]
-  },
-  {
-    "id": "divide-and-conquer",
-    "label": "Divide & Conquer",
-    "exercises": [
+      },
       {
         "id": "algo-merge-sort",
         "type": "reorder",
@@ -117,8 +111,8 @@ export const ALGO_SECTIONS: ExerciseSection<AlgoGroupId>[] = [
           "            if arr[j] <= pivot:",
           "                i += 1",
           "                arr[i], arr[j] = arr[j], arr[i]",
-          "        arr[i + 1], arr[hi] = arr[hi], arr[i + 1]",
           "        p = i + 1",
+          "        arr[i + 1], arr[hi] = arr[hi], arr[i + 1]",
           "        quicksort(arr, lo, p - 1)",
           "        quicksort(arr, p + 1, hi)"
         ],
@@ -128,11 +122,21 @@ export const ALGO_SECTIONS: ExerciseSection<AlgoGroupId>[] = [
             3
           ],
           [
+            8,
+            9
+          ],
+          [
             10,
             11
           ]
         ]
-      },
+      }
+    ]
+  },
+  {
+    "id": "divide-and-conquer",
+    "label": "Divide & Conquer",
+    "exercises": [
       {
         "id": "algo-quickselect",
         "type": "reorder",
