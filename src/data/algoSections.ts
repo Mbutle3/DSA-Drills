@@ -1,0 +1,862 @@
+import type { AlgoGroupId, ExerciseSection } from "./types";
+
+export const ALGO_SECTIONS: ExerciseSection<AlgoGroupId>[] = [
+  {
+    "id": "sorting",
+    "label": "Sorting",
+    "exercises": [
+      {
+        "id": "algo-bubble-sort",
+        "type": "reorder",
+        "category": "algo",
+        "file": "bubble_sort.py",
+        "title": "Bubble Sort",
+        "note": "Repeatedly swap adjacent out-of-order pairs. O(n²), rarely used, great for learning.",
+        "lines": [
+          "def bubble_sort(arr):",
+          "    n = len(arr)",
+          "    for i in range(n):",
+          "        for j in range(n - i - 1):",
+          "            if arr[j] > arr[j + 1]:",
+          "                arr[j], arr[j + 1] = arr[j + 1], arr[j]",
+          "    return arr"
+        ]
+      },
+      {
+        "id": "algo-insertion-sort",
+        "type": "reorder",
+        "category": "algo",
+        "file": "insertion_sort.py",
+        "title": "Insertion Sort",
+        "note": "Builds the sorted portion one element at a time, like sorting a hand of cards.",
+        "lines": [
+          "def insertion_sort(arr):",
+          "    for i in range(1, len(arr)):",
+          "        key = arr[i]",
+          "        j = i - 1",
+          "        while j >= 0 and arr[j] > key:",
+          "            arr[j + 1] = arr[j]",
+          "            j -= 1",
+          "        arr[j + 1] = key",
+          "    return arr"
+        ]
+      },
+      {
+        "id": "algo-selection-sort",
+        "type": "reorder",
+        "category": "algo",
+        "file": "selection_sort.py",
+        "title": "Selection Sort",
+        "note": "Repeatedly find the minimum of the unsorted portion and swap it into place.",
+        "lines": [
+          "def selection_sort(arr):",
+          "    for i in range(len(arr)):",
+          "        min_idx = i",
+          "        for j in range(i + 1, len(arr)):",
+          "            if arr[j] < arr[min_idx]:",
+          "                min_idx = j",
+          "        arr[i], arr[min_idx] = arr[min_idx], arr[i]",
+          "    return arr"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "divide-and-conquer",
+    "label": "Divide & Conquer",
+    "exercises": [
+      {
+        "id": "algo-merge-sort",
+        "type": "reorder",
+        "category": "algo",
+        "file": "merge_sort.py",
+        "title": "Merge Sort",
+        "note": "Divide, recursively sort each half, then merge — O(n log n) and stable.",
+        "lines": [
+          "def merge_sort(arr):",
+          "    if len(arr) <= 1:",
+          "        return arr",
+          "    mid = len(arr) // 2",
+          "    left = merge_sort(arr[:mid])",
+          "    right = merge_sort(arr[mid:])",
+          "    result = []",
+          "    i = j = 0",
+          "    while i < len(left) and j < len(right):",
+          "        if left[i] <= right[j]:",
+          "            result.append(left[i])",
+          "            i += 1",
+          "        else:",
+          "            result.append(right[j])",
+          "            j += 1",
+          "    return result + left[i:] + right[j:]"
+        ],
+        "interchangeable": [
+          [
+            4,
+            5
+          ],
+          [
+            6,
+            7
+          ]
+        ]
+      },
+      {
+        "id": "algo-quicksort",
+        "type": "reorder",
+        "category": "algo",
+        "file": "quicksort.py",
+        "title": "Quicksort (Lomuto partition)",
+        "note": "Pick a pivot, partition everything smaller to its left, then recurse on both sides.",
+        "lines": [
+          "def quicksort(arr, lo, hi):",
+          "    if lo < hi:",
+          "        pivot = arr[hi]",
+          "        i = lo - 1",
+          "        for j in range(lo, hi):",
+          "            if arr[j] <= pivot:",
+          "                i += 1",
+          "                arr[i], arr[j] = arr[j], arr[i]",
+          "        arr[i + 1], arr[hi] = arr[hi], arr[i + 1]",
+          "        p = i + 1",
+          "        quicksort(arr, lo, p - 1)",
+          "        quicksort(arr, p + 1, hi)"
+        ],
+        "interchangeable": [
+          [
+            2,
+            3
+          ],
+          [
+            10,
+            11
+          ]
+        ]
+      },
+      {
+        "id": "algo-quickselect",
+        "type": "reorder",
+        "category": "algo",
+        "file": "quickselect.py",
+        "title": "Quickselect (kth smallest)",
+        "note": "Like quicksort, but only recurse into the side that actually contains the kth element.",
+        "lines": [
+          "def quickselect(arr, k):",
+          "    pivot = arr[len(arr) // 2]",
+          "    lows = [x for x in arr if x < pivot]",
+          "    highs = [x for x in arr if x > pivot]",
+          "    pivots = [x for x in arr if x == pivot]",
+          "    if k < len(lows):",
+          "        return quickselect(lows, k)",
+          "    elif k < len(lows) + len(pivots):",
+          "        return pivot",
+          "    else:",
+          "        return quickselect(highs, k - len(lows) - len(pivots))"
+        ],
+        "interchangeable": [
+          [
+            2,
+            3,
+            4
+          ]
+        ]
+      },
+      {
+        "id": "algo-binary-search",
+        "type": "reorder",
+        "category": "algo",
+        "file": "binary_search.py",
+        "title": "Binary Search",
+        "note": "Requires a sorted array. Halves the search space every step — O(log n).",
+        "lines": [
+          "def binary_search(arr, target):",
+          "    lo, hi = 0, len(arr) - 1",
+          "    while lo <= hi:",
+          "        mid = (lo + hi) // 2",
+          "        if arr[mid] == target:",
+          "            return mid",
+          "        elif arr[mid] < target:",
+          "            lo = mid + 1",
+          "        else:",
+          "            hi = mid - 1",
+          "    return -1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "graph-traversal",
+    "label": "Graph Traversal & Shortest Path",
+    "exercises": [
+      {
+        "id": "algo-bfs",
+        "type": "reorder",
+        "category": "algo",
+        "file": "bfs.py",
+        "title": "Breadth-First Search",
+        "note": "Explore level by level using a queue — finds shortest path in unweighted graphs.",
+        "lines": [
+          "def bfs(graph, start):",
+          "    visited = {start}",
+          "    queue = deque([start])",
+          "    while queue:",
+          "        node = queue.popleft()",
+          "        for nbr in graph[node]:",
+          "            if nbr not in visited:",
+          "                visited.add(nbr)",
+          "                queue.append(nbr)",
+          "    return visited"
+        ],
+        "interchangeable": [
+          [
+            1,
+            2
+          ],
+          [
+            7,
+            8
+          ]
+        ]
+      },
+      {
+        "id": "algo-dfs",
+        "type": "reorder",
+        "category": "algo",
+        "file": "dfs.py",
+        "title": "Depth-First Search (recursive)",
+        "note": "Go as deep as possible before backtracking — natural with recursion.",
+        "lines": [
+          "def dfs(graph, node, visited=None):",
+          "    if visited is None:",
+          "        visited = set()",
+          "    visited.add(node)",
+          "    for nbr in graph[node]:",
+          "        if nbr not in visited:",
+          "            dfs(graph, nbr, visited)",
+          "    return visited"
+        ]
+      },
+      {
+        "id": "algo-dfs-iterative",
+        "type": "reorder",
+        "category": "algo",
+        "file": "dfs_iterative.py",
+        "title": "DFS (iterative)",
+        "note": "Same traversal as recursive DFS, but with an explicit stack instead of the call stack.",
+        "lines": [
+          "def dfs_iterative(graph, start):",
+          "    visited = set()",
+          "    stack = [start]",
+          "    while stack:",
+          "        node = stack.pop()",
+          "        if node not in visited:",
+          "            visited.add(node)",
+          "            stack.extend(graph[node])",
+          "    return visited"
+        ],
+        "interchangeable": [
+          [
+            1,
+            2
+          ],
+          [
+            6,
+            7
+          ]
+        ]
+      },
+      {
+        "id": "algo-dijkstra",
+        "type": "reorder",
+        "category": "algo",
+        "file": "dijkstra.py",
+        "title": "Dijkstra's Shortest Path",
+        "note": "Shortest paths from a single source using a min-heap of (distance, node) pairs.",
+        "lines": [
+          "import heapq",
+          "def dijkstra(graph, start):",
+          "    dist = {start: 0}",
+          "    pq = [(0, start)]",
+          "    while pq:",
+          "        d, node = heapq.heappop(pq)",
+          "        if d > dist.get(node, float('inf')):",
+          "            continue",
+          "        for nbr, weight in graph[node]:",
+          "            nd = d + weight",
+          "            if nd < dist.get(nbr, float('inf')):",
+          "                dist[nbr] = nd",
+          "                heapq.heappush(pq, (nd, nbr))",
+          "    return dist"
+        ],
+        "interchangeable": [
+          [
+            2,
+            3
+          ],
+          [
+            11,
+            12
+          ]
+        ]
+      },
+      {
+        "id": "algo-topological-sort",
+        "type": "reorder",
+        "category": "algo",
+        "file": "topo_sort.py",
+        "title": "Topological Sort (Kahn's algorithm)",
+        "note": "Repeatedly peel off nodes with no remaining incoming edges.",
+        "lines": [
+          "from collections import deque",
+          "def topo_sort(graph, indegree):",
+          "    queue = deque([n for n in graph if indegree[n] == 0])",
+          "    order = []",
+          "    while queue:",
+          "        node = queue.popleft()",
+          "        order.append(node)",
+          "        for nbr in graph[node]:",
+          "            indegree[nbr] -= 1",
+          "            if indegree[nbr] == 0:",
+          "                queue.append(nbr)",
+          "    return order"
+        ],
+        "interchangeable": [
+          [
+            2,
+            3
+          ]
+        ]
+      },
+      {
+        "id": "algo-num-islands",
+        "type": "reorder",
+        "category": "algo",
+        "file": "num_islands.py",
+        "title": "Number of Islands (flood-fill DFS)",
+        "note": "Flood-fill DFS — sink every land cell you visit so it's never counted twice.",
+        "lines": [
+          "def num_islands(grid):",
+          "    def dfs(r, c):",
+          "        if r < 0 or c < 0 or r >= len(grid) or c >= len(grid[0]) or grid[r][c] != '1':",
+          "            return",
+          "        grid[r][c] = '0'",
+          "        dfs(r + 1, c)",
+          "        dfs(r - 1, c)",
+          "        dfs(r, c + 1)",
+          "        dfs(r, c - 1)",
+          "    count = 0",
+          "    for r in range(len(grid)):",
+          "        for c in range(len(grid[0])):",
+          "            if grid[r][c] == '1':",
+          "                count += 1",
+          "                dfs(r, c)",
+          "    return count"
+        ],
+        "interchangeable": [
+          [
+            5,
+            6,
+            7,
+            8
+          ],
+          [
+            13,
+            14
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "id": "dynamic-programming",
+    "label": "Dynamic Programming",
+    "exercises": [
+      {
+        "id": "algo-fib-memo",
+        "type": "reorder",
+        "category": "algo",
+        "file": "fib_memo.py",
+        "title": "Fibonacci (memoized)",
+        "note": "Cache results to turn exponential recursion into linear time.",
+        "lines": [
+          "def fib(n, memo={}):",
+          "    if n in memo:",
+          "        return memo[n]",
+          "    if n <= 1:",
+          "        return n",
+          "    memo[n] = fib(n - 1, memo) + fib(n - 2, memo)",
+          "    return memo[n]"
+        ]
+      },
+      {
+        "id": "algo-knapsack",
+        "type": "reorder",
+        "category": "algo",
+        "file": "knapsack.py",
+        "title": "0/1 Knapsack (DP)",
+        "note": "A 2D table: best achievable value for each item count and weight capacity.",
+        "lines": [
+          "def knapsack(weights, values, capacity):",
+          "    n = len(weights)",
+          "    dp = [[0] * (capacity + 1) for _ in range(n + 1)]",
+          "    for i in range(1, n + 1):",
+          "        for w in range(capacity + 1):",
+          "            if weights[i - 1] <= w:",
+          "                dp[i][w] = max(dp[i - 1][w], dp[i - 1][w - weights[i - 1]] + values[i - 1])",
+          "            else:",
+          "                dp[i][w] = dp[i - 1][w]",
+          "    return dp[n][capacity]"
+        ]
+      },
+      {
+        "id": "algo-lcs",
+        "type": "reorder",
+        "category": "algo",
+        "file": "lcs.py",
+        "title": "Longest Common Subsequence",
+        "note": "A 2D DP table comparing every prefix of a against every prefix of b.",
+        "lines": [
+          "def lcs(a, b):",
+          "    m, n = len(a), len(b)",
+          "    dp = [[0] * (n + 1) for _ in range(m + 1)]",
+          "    for i in range(1, m + 1):",
+          "        for j in range(1, n + 1):",
+          "            if a[i - 1] == b[j - 1]:",
+          "                dp[i][j] = dp[i - 1][j - 1] + 1",
+          "            else:",
+          "                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])",
+          "    return dp[m][n]"
+        ]
+      },
+      {
+        "id": "algo-lis",
+        "type": "reorder",
+        "category": "algo",
+        "file": "lis.py",
+        "title": "Longest Increasing Subsequence",
+        "note": "O(n²) DP — dp[i] is the length of the best increasing subsequence ending at i.",
+        "lines": [
+          "def lis(nums):",
+          "    dp = [1] * len(nums)",
+          "    for i in range(len(nums)):",
+          "        for j in range(i):",
+          "            if nums[j] < nums[i]:",
+          "                dp[i] = max(dp[i], dp[j] + 1)",
+          "    return max(dp)"
+        ]
+      },
+      {
+        "id": "algo-edit-distance",
+        "type": "reorder",
+        "category": "algo",
+        "file": "edit_distance.py",
+        "title": "Edit Distance (Levenshtein)",
+        "note": "Minimum insertions, deletions, or substitutions to turn one string into another.",
+        "lines": [
+          "def edit_distance(a, b):",
+          "    m, n = len(a), len(b)",
+          "    dp = [[0] * (n + 1) for _ in range(m + 1)]",
+          "    for i in range(m + 1):",
+          "        dp[i][0] = i",
+          "    for j in range(n + 1):",
+          "        dp[0][j] = j",
+          "    for i in range(1, m + 1):",
+          "        for j in range(1, n + 1):",
+          "            if a[i - 1] == b[j - 1]:",
+          "                dp[i][j] = dp[i - 1][j - 1]",
+          "            else:",
+          "                dp[i][j] = 1 + min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1])",
+          "    return dp[m][n]"
+        ]
+      },
+      {
+        "id": "algo-kadane",
+        "type": "reorder",
+        "category": "algo",
+        "file": "kadane.py",
+        "title": "Kadane's Algorithm (Max Subarray Sum)",
+        "note": "Track the best subarray ending here versus the best subarray seen anywhere so far.",
+        "lines": [
+          "def kadane(arr):",
+          "    max_ending_here = arr[0]",
+          "    max_so_far = arr[0]",
+          "    for x in arr[1:]:",
+          "        max_ending_here = max(x, max_ending_here + x)",
+          "        max_so_far = max(max_so_far, max_ending_here)",
+          "    return max_so_far"
+        ],
+        "interchangeable": [
+          [
+            1,
+            2
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "id": "two-pointers",
+    "label": "Two Pointers",
+    "exercises": [
+      {
+        "id": "algo-two-pointer-pair-sum",
+        "type": "reorder",
+        "category": "algo",
+        "file": "pair_sum_sorted.py",
+        "title": "Two Pointers — Pair Sum in Sorted Array",
+        "note": "Start at both ends and close in — move whichever pointer gets you closer to the target.",
+        "lines": [
+          "def pair_sum_sorted(arr, target):",
+          "    lo, hi = 0, len(arr) - 1",
+          "    while lo < hi:",
+          "        total = arr[lo] + arr[hi]",
+          "        if total == target:",
+          "            return [lo, hi]",
+          "        elif total < target:",
+          "            lo += 1",
+          "        else:",
+          "            hi -= 1",
+          "    return []"
+        ]
+      },
+      {
+        "id": "algo-first-occurrence",
+        "type": "reorder",
+        "category": "algo",
+        "file": "first_occurrence.py",
+        "title": "Binary Search — First Occurrence",
+        "note": "A binary search variant that keeps narrowing left even after finding a match.",
+        "lines": [
+          "def first_occurrence(arr, target):",
+          "    lo, hi, result = 0, len(arr) - 1, -1",
+          "    while lo <= hi:",
+          "        mid = (lo + hi) // 2",
+          "        if arr[mid] == target:",
+          "            result = mid",
+          "            hi = mid - 1",
+          "        elif arr[mid] < target:",
+          "            lo = mid + 1",
+          "        else:",
+          "            hi = mid - 1",
+          "    return result"
+        ]
+      },
+      {
+        "id": "algo-floyd-cycle-detection",
+        "type": "reorder",
+        "category": "algo",
+        "file": "floyd_cycle.py",
+        "title": "Floyd's Cycle Detection",
+        "note": "A fast and a slow pointer eventually meet if — and only if — there's a cycle.",
+        "lines": [
+          "def has_cycle(head):",
+          "    slow = fast = head",
+          "    while fast and fast.next:",
+          "        slow = slow.next",
+          "        fast = fast.next.next",
+          "        if slow == fast:",
+          "            return True",
+          "    return False"
+        ]
+      },
+      {
+        "id": "algo-merge-two-sorted-lists",
+        "type": "reorder",
+        "category": "algo",
+        "file": "merge_sorted_lists.py",
+        "title": "Merge Two Sorted Linked Lists",
+        "note": "A dummy head node avoids special-casing the very first node you attach.",
+        "lines": [
+          "def merge_lists(l1, l2):",
+          "    dummy = Node(0)",
+          "    tail = dummy",
+          "    while l1 and l2:",
+          "        if l1.val <= l2.val:",
+          "            tail.next = l1",
+          "            l1 = l1.next",
+          "        else:",
+          "            tail.next = l2",
+          "            l2 = l2.next",
+          "        tail = tail.next",
+          "    tail.next = l1 or l2",
+          "    return dummy.next"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sliding-window",
+    "label": "Sliding Window",
+    "exercises": [
+      {
+        "id": "algo-sliding-window-max",
+        "type": "reorder",
+        "category": "algo",
+        "file": "sliding_window_sum.py",
+        "title": "Sliding Window — Max Sum of Size k",
+        "note": "Slide the window by subtracting the outgoing element and adding the incoming one.",
+        "lines": [
+          "def max_subarray_sum(arr, k):",
+          "    window_sum = sum(arr[:k])",
+          "    max_sum = window_sum",
+          "    for i in range(k, len(arr)):",
+          "        window_sum += arr[i] - arr[i - k]",
+          "        max_sum = max(max_sum, window_sum)",
+          "    return max_sum"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hash-map",
+    "label": "Hash Map",
+    "exercises": [
+      {
+        "id": "algo-two-sum",
+        "type": "reorder",
+        "category": "algo",
+        "file": "two_sum.py",
+        "title": "Two Sum (hash map)",
+        "note": "Trade space for time — one pass, O(n), by remembering what you've seen.",
+        "lines": [
+          "def two_sum(nums, target):",
+          "    seen = {}",
+          "    for i, num in enumerate(nums):",
+          "        complement = target - num",
+          "        if complement in seen:",
+          "            return [seen[complement], i]",
+          "        seen[num] = i"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "backtracking",
+    "label": "Backtracking",
+    "exercises": [
+      {
+        "id": "algo-permutations",
+        "type": "reorder",
+        "category": "algo",
+        "file": "permutations.py",
+        "title": "Permutations (backtracking)",
+        "note": "Pick each remaining element as the next slot, then recurse on what's left.",
+        "lines": [
+          "def permute(nums, path=[], result=None):",
+          "    if result is None:",
+          "        result = []",
+          "    if not nums:",
+          "        result.append(path)",
+          "    for i in range(len(nums)):",
+          "        permute(nums[:i] + nums[i+1:], path + [nums[i]], result)",
+          "    return result"
+        ]
+      },
+      {
+        "id": "algo-power-set",
+        "type": "reorder",
+        "category": "algo",
+        "file": "power_set.py",
+        "title": "Power Set (all subsets)",
+        "note": "Every subset can be built by deciding, for each element, whether it's in or out.",
+        "lines": [
+          "def power_set(nums):",
+          "    result = [[]]",
+          "    for num in nums:",
+          "        result += [subset + [num] for subset in result]",
+          "    return result"
+        ]
+      },
+      {
+        "id": "algo-nqueens-safe-check",
+        "type": "reorder",
+        "category": "algo",
+        "file": "nqueens_safe_check.py",
+        "title": "N-Queens — Is Placement Safe?",
+        "note": "A queen is unsafe if it shares a column or a diagonal with an earlier queen.",
+        "lines": [
+          "def is_safe(board, row, col, n):",
+          "    for i in range(row):",
+          "        if board[i] == col or abs(board[i] - col) == row - i:",
+          "            return False",
+          "    return True"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "linked-list",
+    "label": "Linked List Techniques",
+    "exercises": [
+      {
+        "id": "algo-reverse-linked-list",
+        "type": "reorder",
+        "category": "algo",
+        "file": "reverse_linked_list.py",
+        "title": "Reverse a Linked List",
+        "note": "Flip each .next pointer one at a time while walking the list, tracking the previous node.",
+        "lines": [
+          "def reverse_list(head):",
+          "    prev = None",
+          "    curr = head",
+          "    while curr:",
+          "        next_node = curr.next",
+          "        curr.next = prev",
+          "        prev = curr",
+          "        curr = next_node",
+          "    return prev"
+        ],
+        "interchangeable": [
+          [
+            1,
+            2
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "id": "stack-queue",
+    "label": "Stack & Queue",
+    "exercises": [
+      {
+        "id": "algo-valid-parentheses",
+        "type": "reorder",
+        "category": "algo",
+        "file": "valid_parentheses.py",
+        "title": "Valid Parentheses",
+        "note": "A stack tracks open brackets — every closer must match the most recently opened one.",
+        "lines": [
+          "def is_valid(s):",
+          "    stack = []",
+          "    pairs = {')': '(', ']': '[', '}': '{'}",
+          "    for ch in s:",
+          "        if ch in pairs.values():",
+          "            stack.append(ch)",
+          "        elif stack and stack[-1] == pairs[ch]:",
+          "            stack.pop()",
+          "        else:",
+          "            return False",
+          "    return not stack"
+        ],
+        "interchangeable": [
+          [
+            1,
+            2
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "id": "math",
+    "label": "Math & Number Theory",
+    "exercises": [
+      {
+        "id": "algo-gcd",
+        "type": "reorder",
+        "category": "algo",
+        "file": "gcd.py",
+        "title": "Greatest Common Divisor (Euclidean algorithm)",
+        "note": "Repeatedly replace (a, b) with (b, a % b) until b hits zero.",
+        "lines": [
+          "def gcd(a, b):",
+          "    while b:",
+          "        a, b = b, a % b",
+          "    return a"
+        ]
+      },
+      {
+        "id": "algo-sieve-of-eratosthenes",
+        "type": "reorder",
+        "category": "algo",
+        "file": "sieve.py",
+        "title": "Sieve of Eratosthenes",
+        "note": "Cross off multiples of each prime up to √n — whatever survives is prime.",
+        "lines": [
+          "def sieve(n):",
+          "    is_prime = [True] * (n + 1)",
+          "    is_prime[0] = is_prime[1] = False",
+          "    for i in range(2, int(n ** 0.5) + 1):",
+          "        if is_prime[i]:",
+          "            for j in range(i * i, n + 1, i):",
+          "                is_prime[j] = False",
+          "    return [i for i in range(n + 1) if is_prime[i]]"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "arrays-matrices",
+    "label": "Arrays & Matrices",
+    "exercises": [
+      {
+        "id": "algo-rotate-array",
+        "type": "reorder",
+        "category": "algo",
+        "file": "rotate_array.py",
+        "title": "Rotate an Array",
+        "note": "Rotating right by k is the same as swapping the last k elements with the rest.",
+        "lines": [
+          "def rotate(arr, k):",
+          "    k = k % len(arr)",
+          "    arr[:] = arr[-k:] + arr[:-k]",
+          "    return arr"
+        ]
+      },
+      {
+        "id": "algo-spiral-matrix",
+        "type": "reorder",
+        "category": "algo",
+        "file": "spiral_matrix.py",
+        "title": "Spiral Matrix Traversal",
+        "note": "Peel off the top row, rotate what's left, and repeat until nothing remains.",
+        "lines": [
+          "def spiral_order(matrix):",
+          "    result = []",
+          "    while matrix:",
+          "        result += matrix.pop(0)",
+          "        matrix = list(zip(*matrix))[::-1]",
+          "    return result"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tries-union-find",
+    "label": "Tries & Union-Find",
+    "exercises": [
+      {
+        "id": "algo-trie-insert",
+        "type": "reorder",
+        "category": "algo",
+        "file": "trie_insert.py",
+        "title": "Trie — Insert a Word",
+        "note": "Walk the trie character by character, creating child nodes wherever one is missing.",
+        "lines": [
+          "def insert(root, word):",
+          "    node = root",
+          "    for ch in word:",
+          "        if ch not in node.children:",
+          "            node.children[ch] = TrieNode()",
+          "        node = node.children[ch]",
+          "    node.is_end = True"
+        ]
+      },
+      {
+        "id": "algo-union-find-path-compression",
+        "type": "reorder",
+        "category": "algo",
+        "file": "union_find_path_compression.py",
+        "title": "Union-Find — Path Compression",
+        "note": "Path compression flattens the tree during find() so future lookups are near O(1).",
+        "lines": [
+          "def find(parent, x):",
+          "    if parent[x] != x:",
+          "        parent[x] = find(parent, parent[x])",
+          "    return parent[x]"
+        ]
+      }
+    ]
+  }
+];
