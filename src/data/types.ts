@@ -8,6 +8,7 @@ export interface ReorderExercise {
   title: string;
   note: string;
   lines: string[];
+  interchangeable?: number[][];
 }
 
 export interface FillBlankExercise {

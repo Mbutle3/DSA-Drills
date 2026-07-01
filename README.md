@@ -56,6 +56,8 @@ Add to `src/data/dataStructures.ts` or `src/data/algorithms.ts`:
 
 `lines` must be in the **correct** order. The app shuffles a copy for display.
 
+Optional `interchangeable` groups mark contiguous line ranges where any internal order is accepted (e.g. independent constructor assignments or heap pushes). Each group must be a contiguous run of indices in canonical order, e.g. `[2, 3, 4]`. Validation uses `checkReorder` in `src/lib/checkReorder.ts`.
+
 ### Fill-in-the-blank exercise (Python One-Liners)
 
 Add to `src/data/oneLiners.ts`:

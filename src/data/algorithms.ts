@@ -41,6 +41,7 @@ export const algorithms: ReorderExercise[] = [
       "                queue.append(nbr)",
       "    return visited",
     ],
+    interchangeable: [[1, 2], [7, 8]],
   },
   {
     id: "algo-dfs",
@@ -136,6 +137,7 @@ export const algorithms: ReorderExercise[] = [
       "            j += 1",
       "    return result + left[i:] + right[j:]",
     ],
+    interchangeable: [[4, 5], [6, 7]],
   },
   {
     id: "algo-quicksort",
@@ -158,6 +160,7 @@ export const algorithms: ReorderExercise[] = [
       "        quicksort(arr, lo, p - 1)",
       "        quicksort(arr, p + 1, hi)",
     ],
+    interchangeable: [[2, 3], [10, 11]],
   },
   {
     id: "algo-insertion-sort",
@@ -214,6 +217,7 @@ export const algorithms: ReorderExercise[] = [
       "            stack.extend(graph[node])",
       "    return visited",
     ],
+    interchangeable: [[1, 2], [6, 7]],
   },
   {
     id: "algo-topological-sort",
@@ -236,6 +240,7 @@ export const algorithms: ReorderExercise[] = [
       "                queue.append(nbr)",
       "    return order",
     ],
+    interchangeable: [[2, 3]],
   },
   {
     id: "algo-dijkstra",
@@ -260,6 +265,7 @@ export const algorithms: ReorderExercise[] = [
       "                heapq.heappush(pq, (nd, nbr))",
       "    return dist",
     ],
+    interchangeable: [[2, 3], [11, 12]],
   },
   {
     id: "algo-knapsack",
@@ -396,6 +402,7 @@ export const algorithms: ReorderExercise[] = [
       "        max_so_far = max(max_so_far, max_ending_here)",
       "    return max_so_far",
     ],
+    interchangeable: [[1, 2]],
   },
   {
     id: "algo-gcd",
@@ -482,6 +489,7 @@ export const algorithms: ReorderExercise[] = [
       "    else:",
       "        return quickselect(highs, k - len(lows) - len(pivots))",
     ],
+    interchangeable: [[2, 3, 4]],
   },
   {
     id: "algo-floyd-cycle-detection",
@@ -519,6 +527,7 @@ export const algorithms: ReorderExercise[] = [
       "        curr = next_node",
       "    return prev",
     ],
+    interchangeable: [[1, 2]],
   },
   {
     id: "algo-merge-two-sorted-lists",
@@ -563,6 +572,7 @@ export const algorithms: ReorderExercise[] = [
       "            return False",
       "    return not stack",
     ],
+    interchangeable: [[1, 2]],
   },
   {
     id: "algo-rotate-array",
@@ -672,6 +682,7 @@ export const algorithms: ReorderExercise[] = [
       "                dfs(r, c)",
       "    return count",
     ],
+    interchangeable: [[5, 6, 7, 8], [13, 14]],
   },
   {
     id: "algo-nqueens-safe-check",

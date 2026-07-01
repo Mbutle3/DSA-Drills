@@ -17,6 +17,7 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { checkReorder } from "../lib/checkReorder";
 import type { ReorderExercise } from "../data/types";
 import { CodeLine } from "./CodeLine";
 import { ExerciseWindow } from "./ExerciseWindow";
@@ -31,10 +32,6 @@ function shuffleIndices(length: number): number[] {
     [indices[0], indices[1]] = [indices[1], indices[0]];
   }
   return indices;
-}
-
-function isCorrectOrder(order: number[]): boolean {
-  return order.every((lineIndex, position) => lineIndex === position);
 }
 
 interface SortableLineProps {
@@ -125,6 +122,7 @@ export function ReorderExercise({
     shuffleIndices(exercise.lines.length),
   );
   const [checked, setChecked] = useState(false);
+  const [correctness, setCorrectness] = useState<boolean[] | null>(null);
   const [showSolution, setShowSolution] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
 
@@ -145,31 +143,35 @@ export function ReorderExercise({
       return arrayMove(prev, oldIndex, newIndex);
     });
     setChecked(false);
+    setCorrectness(null);
     setStatus(null);
   }, []);
 
   const handleShuffle = useCallback(() => {
     setOrder(shuffleIndices(exercise.lines.length));
     setChecked(false);
+    setCorrectness(null);
     setShowSolution(false);
     setStatus(null);
   }, [exercise.lines.length]);
 
   const handleCheck = useCallback(() => {
-    const correct = isCorrectOrder(order);
+    const result = checkReorder(order, exercise.interchangeable ?? []);
+    setCorrectness(result.correctness);
     setChecked(true);
-    if (correct) {
+    if (result.allCorrect) {
       setStatus("Correct order — nice work!");
       onSolved();
     } else {
       setStatus("Not quite — green lines are in the right spot, red ones need to move.");
     }
-  }, [order, onSolved]);
+  }, [order, exercise.interchangeable, onSolved]);
 
   const handleShowSolution = useCallback(() => {
     setOrder(exercise.lines.map((_, i) => i));
     setShowSolution(true);
     setChecked(false);
+    setCorrectness(null);
     setStatus("Solution shown — try shuffling and solving again.");
   }, [exercise.lines]);
 
@@ -177,6 +179,7 @@ export function ReorderExercise({
     onUnsolved();
     setOrder(shuffleIndices(exercise.lines.length));
     setChecked(false);
+    setCorrectness(null);
     setShowSolution(false);
     setStatus(null);
   }, [exercise.lines.length, onUnsolved]);
@@ -185,9 +188,11 @@ export function ReorderExercise({
     ? exercise.lines.map((_, i) => i)
     : order;
 
+  const allCorrect = checked && correctness ? correctness.every(Boolean) : false;
+
   const lineFeedback = (position: number): "correct" | "incorrect" | null => {
-    if (!checked) return null;
-    return displayOrder[position] === position ? "correct" : "incorrect";
+    if (!checked || !correctness) return null;
+    return correctness[position] ? "correct" : "incorrect";
   };
 
   return (
@@ -219,7 +224,7 @@ export function ReorderExercise({
       {status && (
         <p
           className={`mt-4 text-sm ${
-            checked && isCorrectOrder(displayOrder) ? "text-correct" : "text-muted"
+            checked && allCorrect ? "text-correct" : "text-muted"
           }`}
           role="status"
         >

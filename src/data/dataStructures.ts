@@ -47,6 +47,7 @@ export const dataStructures: ReorderExercise[] = [
       "head.next = Node(2)",
       "head.next.next = Node(3)",
     ],
+    interchangeable: [[2, 3]],
   },
   {
     id: "ds-tree",
@@ -65,6 +66,7 @@ export const dataStructures: ReorderExercise[] = [
       "root.left = TreeNode(3)",
       "root.right = TreeNode(8)",
     ],
+    interchangeable: [[2, 3, 4], [6, 7]],
   },
   {
     id: "ds-graph",
@@ -80,6 +82,7 @@ export const dataStructures: ReorderExercise[] = [
       "graph['C'] = ['D']",
       "graph['D'] = []",
     ],
+    interchangeable: [[1, 2, 3, 4]],
   },
   {
     id: "ds-heap",
@@ -96,6 +99,7 @@ export const dataStructures: ReorderExercise[] = [
       "heapq.heappush(heap, 3)",
       "smallest = heapq.heappop(heap)  # 1",
     ],
+    interchangeable: [[2, 3, 4]],
   },
   {
     id: "ds-set",
@@ -110,6 +114,7 @@ export const dataStructures: ReorderExercise[] = [
       "seen.add(2)",
       "exists = 2 in seen  # True",
     ],
+    interchangeable: [[1, 2]],
   },
   {
     id: "ds-doubly-linked-list",
@@ -128,6 +133,7 @@ export const dataStructures: ReorderExercise[] = [
       "head.next = DNode(2)",
       "head.next.prev = head",
     ],
+    interchangeable: [[2, 3, 4]],
   },
   {
     id: "ds-circular-buffer",
@@ -159,6 +165,7 @@ export const dataStructures: ReorderExercise[] = [
       "heapq.heappush(pq, (1, 'high'))",
       "priority, item = heapq.heappop(pq)  # (1, 'high')",
     ],
+    interchangeable: [[2, 3]],
   },
   {
     id: "ds-lru-cache",
@@ -191,6 +198,7 @@ export const dataStructures: ReorderExercise[] = [
       "root.children['c'] = TrieNode()",
       "root.children['c'].is_end = True",
     ],
+    interchangeable: [[2, 3]],
   },
   {
     id: "ds-union-find",
@@ -221,6 +229,7 @@ export const dataStructures: ReorderExercise[] = [
       "matrix[0][1] = 1",
       "matrix[1][0] = 1",
     ],
+    interchangeable: [[2, 3]],
   },
   {
     id: "ds-weighted-graph",
@@ -235,6 +244,7 @@ export const dataStructures: ReorderExercise[] = [
       "graph['B'] = [('D', 2)]",
       "graph['C'] = [('D', 5)]",
     ],
+    interchangeable: [[1, 2, 3]],
   },
   {
     id: "ds-bst-insert",
@@ -258,6 +268,7 @@ export const dataStructures: ReorderExercise[] = [
       "        root.right = insert(root.right, val)",
       "    return root",
     ],
+    interchangeable: [[2, 3, 4]],
   },
   {
     id: "ds-deque-as-stack",
@@ -317,6 +328,7 @@ export const dataStructures: ReorderExercise[] = [
       "bag['apple'] += 1",
       "bag['banana'] += 1",
     ],
+    interchangeable: [[2, 3, 4]],
   },
   {
     id: "ds-sparse-map",
@@ -331,6 +343,7 @@ export const dataStructures: ReorderExercise[] = [
       "sparse[(3, 7)] = 2",
       "value = sparse.get((1, 1), 0)  # 0",
     ],
+    interchangeable: [[1, 2, 3]],
   },
   {
     id: "ds-dll-delete",
@@ -347,6 +360,7 @@ export const dataStructures: ReorderExercise[] = [
       "    node.prev = None",
       "    node.next = None",
     ],
+    interchangeable: [[4, 5]],
   },
   {
     id: "ds-max-heap",
@@ -363,6 +377,7 @@ export const dataStructures: ReorderExercise[] = [
       "heapq.heappush(max_heap, -3)",
       "largest = -heapq.heappop(max_heap)  # 5",
     ],
+    interchangeable: [[2, 3, 4]],
   },
   {
     id: "ds-edge-set",
@@ -377,6 +392,7 @@ export const dataStructures: ReorderExercise[] = [
       "edges.add(('B', 'C'))",
       "connected = ('A', 'B') in edges  # True",
     ],
+    interchangeable: [[1, 2]],
   },
   {
     id: "ds-stack-class",
@@ -411,6 +427,7 @@ export const dataStructures: ReorderExercise[] = [
       "        node = node.next",
       "    return count",
     ],
+    interchangeable: [[1, 2]],
   },
   {
     id: "ds-nary-tree",
@@ -428,5 +445,6 @@ export const dataStructures: ReorderExercise[] = [
       "root.children.append(NaryNode(2))",
       "root.children.append(NaryNode(3))",
     ],
+    interchangeable: [[2, 3]],
   },
 ];
