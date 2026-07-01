@@ -26,10 +26,21 @@ export type AlgoGroupId =
   | "arrays-matrices"
   | "tries-union-find";
 
-export interface ExerciseSection<G extends string> {
+export type OneLinerGroupId =
+  | "comprehensions"
+  | "counting"
+  | "dicts-sets"
+  | "strings"
+  | "lists"
+  | "itertools-functools"
+  | "matrices"
+  | "heapq"
+  | "python-idioms";
+
+export interface ExerciseSection<G extends string, E extends Exercise = Exercise> {
   id: G;
   label: string;
-  exercises: ReorderExercise[];
+  exercises: E[];
 }
 
 export interface ReorderExercise {

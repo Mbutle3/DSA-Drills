@@ -1,13 +1,14 @@
-import { EXERCISE_SECTIONS, EXERCISES, ALL_EXERCISES } from "./data";
+import { EXERCISE_SECTIONS, ALL_EXERCISES } from "./data";
 import type { Category, Exercise, TabId } from "./data/types";
 import { Header } from "./components/Header";
 import { Tabs } from "./components/Tabs";
+import { SectionFilter } from "./components/SectionFilter";
 import { ReorderExercise } from "./components/ReorderExercise";
 import { FillBlankExercise } from "./components/FillBlankExercise";
 import { ExerciseGroupSection } from "./components/ExerciseGroupSection";
 import { useProgress } from "./hooks/useProgress";
 import { useExerciseTags } from "./hooks/useExerciseTags";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 type PanelProps = {
   solved: Set<string>;
@@ -90,9 +91,21 @@ function renderExerciseCards(
 function GroupedCategoryPanel({
   category,
   active,
+  sectionFilter,
   ...props
-}: PanelProps & { category: "ds" | "algo"; active: boolean }) {
+}: PanelProps & {
+  category: Category;
+  active: boolean;
+  sectionFilter: string | "all";
+}) {
   const sections = EXERCISE_SECTIONS[category];
+  const visibleSections = useMemo(
+    () =>
+      sectionFilter === "all"
+        ? sections
+        : sections.filter((section) => section.id === sectionFilter),
+    [sections, sectionFilter],
+  );
 
   return (
     <section
@@ -101,7 +114,7 @@ function GroupedCategoryPanel({
       aria-hidden={!active}
       className="space-y-10"
     >
-      {sections.map((section) => {
+      {visibleSections.map((section) => {
         const solvedInGroup = section.exercises.filter((e) =>
           props.solved.has(e.id),
         ).length;
@@ -120,22 +133,29 @@ function GroupedCategoryPanel({
   );
 }
 
-function CategoryPanel({
+function CategorySectionFilters({
   category,
   active,
-  ...props
-}: PanelProps & { category: Category; active: boolean }) {
-  const exercises = EXERCISES[category];
+  sectionFilter,
+  onSectionFilterChange,
+  solved,
+}: {
+  category: Category;
+  active: boolean;
+  sectionFilter: string | "all";
+  onSectionFilterChange: (id: string | "all") => void;
+  solved: Set<string>;
+}) {
+  if (!active) return null;
 
   return (
-    <section
-      role="tabpanel"
-      hidden={!active}
-      aria-hidden={!active}
-      className="space-y-6"
-    >
-      {renderExerciseCards(exercises, props)}
-    </section>
+    <SectionFilter
+      category={category}
+      sections={EXERCISE_SECTIONS[category]}
+      active={sectionFilter}
+      onChange={onSectionFilterChange}
+      solved={solved}
+    />
   );
 }
 
@@ -177,6 +197,7 @@ function TaggedPanel({
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabId>("ds");
+  const [sectionFilter, setSectionFilter] = useState<string | "all">("all");
   const [resetKey, setResetKey] = useState(0);
   const {
     solved,
@@ -201,8 +222,27 @@ export default function App() {
   const handleResetAll = useCallback(() => {
     resetProgress();
     setActiveTab("ds");
+    setSectionFilter("all");
     setResetKey((k) => k + 1);
   }, [resetProgress]);
+
+  const handleTabChange = useCallback((tab: TabId) => {
+    setActiveTab(tab);
+    setSectionFilter("all");
+  }, []);
+
+  useEffect(() => {
+    if (activeTab !== "ds" && activeTab !== "algo" && activeTab !== "oneliner") {
+      return;
+    }
+    const sections = EXERCISE_SECTIONS[activeTab];
+    if (
+      sectionFilter !== "all" &&
+      !sections.some((section) => section.id === sectionFilter)
+    ) {
+      setSectionFilter("all");
+    }
+  }, [activeTab, sectionFilter]);
 
   const panelProps: PanelProps = {
     solved,
@@ -225,27 +265,51 @@ export default function App() {
         />
         <Tabs
           active={activeTab}
-          onChange={setActiveTab}
+          onChange={handleTabChange}
           solved={solved}
           reviewCount={reviewCount}
           favoritesCount={favoritesCount}
+        />
+        <CategorySectionFilters
+          category="ds"
+          active={activeTab === "ds"}
+          sectionFilter={sectionFilter}
+          onSectionFilterChange={setSectionFilter}
+          solved={solved}
+        />
+        <CategorySectionFilters
+          category="algo"
+          active={activeTab === "algo"}
+          sectionFilter={sectionFilter}
+          onSectionFilterChange={setSectionFilter}
+          solved={solved}
+        />
+        <CategorySectionFilters
+          category="oneliner"
+          active={activeTab === "oneliner"}
+          sectionFilter={sectionFilter}
+          onSectionFilterChange={setSectionFilter}
+          solved={solved}
         />
         <GroupedCategoryPanel
           key={`ds-${resetKey}`}
           category="ds"
           active={activeTab === "ds"}
+          sectionFilter={sectionFilter}
           {...panelProps}
         />
         <GroupedCategoryPanel
           key={`algo-${resetKey}`}
           category="algo"
           active={activeTab === "algo"}
+          sectionFilter={sectionFilter}
           {...panelProps}
         />
-        <CategoryPanel
+        <GroupedCategoryPanel
           key={`oneliner-${resetKey}`}
           category="oneliner"
           active={activeTab === "oneliner"}
+          sectionFilter={sectionFilter}
           {...panelProps}
         />
         <TaggedPanel

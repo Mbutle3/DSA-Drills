@@ -7,6 +7,8 @@ A local, self-quizzing web app for practicing common data structures, algorithms
 
 Progress is saved automatically in `localStorage` and survives page refreshes. You can also export and import a JSON save file to move progress between browsers or machines.
 
+Each main category tab (Data Structures, Algorithms, Python One-Liners) has **topic filter chips** below the tabs — use them to focus on one group at a time (e.g. Trees, Dynamic Programming, Strings) or show **All** to see every group.
+
 ## Setup
 
 ```bash
@@ -36,7 +38,7 @@ Append an object to the relevant section file in `src/data/`:
 
 - **Data Structures** — `src/data/dsSections.ts` (pick the matching group: Stacks & Queues, Linked Lists, Trees & Tries, Graphs, Heaps, Hash Maps & Sets, or Arrays & Matrices)
 - **Algorithms** — `src/data/algoSections.ts` (pick the matching pattern group)
-- **Python One-Liners** — `src/data/oneLiners.ts`
+- **Python One-Liners** — `src/data/oneLiners.ts` (add the exercise), then assign it to a topic in `src/data/oneLinersSections.ts`
 
 Nothing else needs to change — the app picks up new exercises automatically.
 
