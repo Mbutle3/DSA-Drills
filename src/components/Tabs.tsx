@@ -11,9 +11,11 @@ const ACCENT_RING: Record<string, string> = {
     "focus-visible:ring-review/60 data-[active=true]:border-review data-[active=true]:text-review",
   favorite:
     "focus-visible:ring-favorite/60 data-[active=true]:border-favorite data-[active=true]:text-favorite",
+  emerald:
+    "focus-visible:ring-emerald/60 data-[active=true]:border-emerald data-[active=true]:text-emerald",
 };
 
-const TABS: TabId[] = ["ds", "algo", "oneliner", "review", "favorites"];
+const TABS: TabId[] = ["ds", "algo", "oneliner", "cheatsheet", "review", "favorites"];
 
 interface TabsProps {
   active: TabId;
@@ -40,11 +42,13 @@ export function Tabs({
         const accent = TAB_ACCENT[tab];
         const ringClass = ACCENT_RING[accent] ?? ACCENT_RING.sky;
 
-        let countLabel: string;
+        let countLabel: string | null;
         if (tab === "review") {
           countLabel = String(reviewCount);
         } else if (tab === "favorites") {
           countLabel = String(favoritesCount);
+        } else if (tab === "cheatsheet") {
+          countLabel = null;
         } else {
           const total = EXERCISES[tab].length;
           const count = EXERCISES[tab].filter((e) => solved.has(e.id)).length;
@@ -62,7 +66,9 @@ export function Tabs({
             className={`rounded-lg border border-border bg-panel px-4 py-2.5 text-sm font-medium text-muted transition-colors motion-reduce:transition-none hover:border-border hover:bg-panel-2 focus-visible:outline-none focus-visible:ring-2 ${ringClass} data-[active=true]:bg-panel-2`}
           >
             {TAB_LABELS[tab]}
-            <span className="ml-2 font-mono text-xs opacity-80">{countLabel}</span>
+            {countLabel !== null && (
+              <span className="ml-2 font-mono text-xs opacity-80">{countLabel}</span>
+            )}
           </button>
         );
       })}

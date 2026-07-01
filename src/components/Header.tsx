@@ -1,6 +1,8 @@
 import { TOTAL_EXERCISES } from "../data";
 import { useStudyTimer } from "../hooks/useStudyTimer";
+import { useTheme } from "../hooks/useTheme";
 import { ProgressControls } from "./ProgressControls";
+import { ThemeToggle } from "./ThemeToggle";
 
 interface HeaderProps {
   solvedCount: number;
@@ -16,6 +18,7 @@ export function Header({
   onResetAll,
 }: HeaderProps) {
   const sessionTime = useStudyTimer();
+  const { theme, toggleTheme } = useTheme();
   const pct = TOTAL_EXERCISES > 0 ? (solvedCount / TOTAL_EXERCISES) * 100 : 0;
 
   return (
@@ -31,6 +34,7 @@ export function Header({
         </div>
         <div className="flex flex-col items-end gap-3">
           <div className="flex flex-wrap items-center justify-end gap-3">
+            <ThemeToggle theme={theme} onToggle={toggleTheme} />
             <p
               className="font-mono text-sm text-muted"
               title="Time elapsed this session"

@@ -1,6 +1,6 @@
 export type Category = "ds" | "algo" | "oneliner";
 
-export type TabId = Category | "review" | "favorites";
+export type TabId = Category | "review" | "favorites" | "cheatsheet";
 
 export type DsGroupId =
   | "stacks-queues"
@@ -26,10 +26,21 @@ export type AlgoGroupId =
   | "arrays-matrices"
   | "tries-union-find";
 
-export interface ExerciseSection<G extends string> {
+export type OneLinerGroupId =
+  | "comprehensions"
+  | "counting"
+  | "dicts-sets"
+  | "strings"
+  | "lists"
+  | "itertools-functools"
+  | "matrices"
+  | "heapq"
+  | "python-idioms";
+
+export interface ExerciseSection<G extends string, E extends Exercise = Exercise> {
   id: G;
   label: string;
-  exercises: ReorderExercise[];
+  exercises: E[];
 }
 
 export interface ReorderExercise {
@@ -76,6 +87,7 @@ export const TAB_LABELS: Record<TabId, string> = {
   oneliner: "Python One-Liners",
   review: "Review",
   favorites: "Favorites",
+  cheatsheet: "Cheat Sheet",
 };
 
 export const TAB_ACCENT: Record<TabId, string> = {
@@ -84,4 +96,21 @@ export const TAB_ACCENT: Record<TabId, string> = {
   oneliner: "amber",
   review: "review",
   favorites: "favorite",
+  cheatsheet: "emerald",
 };
+
+export interface CheatSheetEntry {
+  title: string;
+  when: string;
+  mnemonic: string;
+  points: string[];
+  snippet?: string;
+}
+
+export interface CheatSheetSection {
+  id: string;
+  label: string;
+  category: Category;
+  groupMnemonic: string;
+  entries: CheatSheetEntry[];
+}
