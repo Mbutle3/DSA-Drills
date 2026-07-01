@@ -1,4 +1,5 @@
 import { TOTAL_EXERCISES } from "../data";
+import { useStudyTimer } from "../hooks/useStudyTimer";
 import { ProgressControls } from "./ProgressControls";
 
 interface HeaderProps {
@@ -14,6 +15,7 @@ export function Header({
   onImport,
   onResetAll,
 }: HeaderProps) {
+  const sessionTime = useStudyTimer();
   const pct = TOTAL_EXERCISES > 0 ? (solvedCount / TOTAL_EXERCISES) * 100 : 0;
 
   return (
@@ -28,10 +30,20 @@ export function Header({
           </p>
         </div>
         <div className="flex flex-col items-end gap-3">
-          <p className="font-mono text-sm text-text">
-            <span className="text-correct font-semibold">{solvedCount}</span>
-            <span className="text-muted"> / {TOTAL_EXERCISES} solved</span>
-          </p>
+          <div className="flex flex-wrap items-center justify-end gap-3">
+            <p
+              className="font-mono text-sm text-muted"
+              title="Time elapsed this session"
+              aria-live="off"
+            >
+              <span className="text-text">{sessionTime}</span>
+              <span className="ml-1.5">session</span>
+            </p>
+            <p className="font-mono text-sm text-text">
+              <span className="text-correct font-semibold">{solvedCount}</span>
+              <span className="text-muted"> / {TOTAL_EXERCISES} solved</span>
+            </p>
+          </div>
           <ProgressControls
             onExport={onExport}
             onImport={onImport}

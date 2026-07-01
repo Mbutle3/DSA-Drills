@@ -32,11 +32,17 @@ npm run preview
 
 ## Adding a new exercise
 
-Append an object to the relevant data file in `src/data/`. No other files need to change — the app picks up new exercises automatically.
+Append an object to the relevant section file in `src/data/`:
+
+- **Data Structures** — `src/data/dsSections.ts` (pick the matching group: Stacks & Queues, Linked Lists, Trees & Tries, Graphs, Heaps, Hash Maps & Sets, or Arrays & Matrices)
+- **Algorithms** — `src/data/algoSections.ts` (pick the matching pattern group)
+- **Python One-Liners** — `src/data/oneLiners.ts`
+
+Nothing else needs to change — the app picks up new exercises automatically.
 
 ### Reorder exercise (Data Structures or Algorithms)
 
-Add to `src/data/dataStructures.ts` or `src/data/algorithms.ts`:
+Add to `src/data/dsSections.ts` or `src/data/algoSections.ts`:
 
 ```ts
 {
@@ -70,10 +76,15 @@ Add to `src/data/oneLiners.ts`:
   file: "my_oneliner.py",
   title: "My One-Liner",
   note: "One-line concept explanation.",
+  given: [
+    "items = [3, 1, 2]  # list[int] — variables already in scope",
+  ],
   template: "result = {{1}}(items)",
   answers: { "1": ["sorted", "list"] },  // accepted answers per blank
 }
 ```
+
+Use `given` to show which variables (and imports) are already defined above the snippet — name them explicitly so solvers know what to reference in blanks.
 
 Use `{{1}}`, `{{2}}`, etc. in `template` for blanks. Answers are compared case-sensitively after trimming and collapsing internal whitespace.
 

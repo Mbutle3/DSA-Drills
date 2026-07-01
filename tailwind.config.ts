@@ -16,6 +16,8 @@ export default {
         amber: "#ffb454",
         correct: "#7fd88f",
         incorrect: "#ff7b72",
+        review: "#f9a8d4",
+        favorite: "#fcd34d",
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],

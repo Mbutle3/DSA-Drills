@@ -1,5 +1,37 @@
 export type Category = "ds" | "algo" | "oneliner";
 
+export type TabId = Category | "review" | "favorites";
+
+export type DsGroupId =
+  | "stacks-queues"
+  | "lists"
+  | "trees"
+  | "graphs"
+  | "heaps"
+  | "hash-maps"
+  | "arrays";
+
+export type AlgoGroupId =
+  | "sorting"
+  | "divide-and-conquer"
+  | "graph-traversal"
+  | "dynamic-programming"
+  | "two-pointers"
+  | "sliding-window"
+  | "hash-map"
+  | "backtracking"
+  | "linked-list"
+  | "stack-queue"
+  | "math"
+  | "arrays-matrices"
+  | "tries-union-find";
+
+export interface ExerciseSection<G extends string> {
+  id: G;
+  label: string;
+  exercises: ReorderExercise[];
+}
+
 export interface ReorderExercise {
   id: string;
   type: "reorder";
@@ -18,6 +50,8 @@ export interface FillBlankExercise {
   file: string;
   title: string;
   note: string;
+  /** Variables already in scope — shown as read-only setup above the snippet. */
+  given: string[];
   template: string;
   answers: Record<string, string[]>;
 }
@@ -34,4 +68,20 @@ export const CATEGORY_ACCENT: Record<Category, string> = {
   ds: "sky",
   algo: "violet",
   oneliner: "amber",
+};
+
+export const TAB_LABELS: Record<TabId, string> = {
+  ds: "Data Structures",
+  algo: "Algorithms",
+  oneliner: "Python One-Liners",
+  review: "Review",
+  favorites: "Favorites",
+};
+
+export const TAB_ACCENT: Record<TabId, string> = {
+  ds: "sky",
+  algo: "violet",
+  oneliner: "amber",
+  review: "review",
+  favorites: "favorite",
 };

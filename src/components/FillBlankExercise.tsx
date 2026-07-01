@@ -40,6 +40,10 @@ function parseTemplate(template: string): TemplatePart[] {
 interface FillBlankExerciseProps {
   exercise: FillBlankExercise;
   solved: boolean;
+  isReview: boolean;
+  isFavorite: boolean;
+  onToggleReview: () => void;
+  onToggleFavorite: () => void;
   onSolved: () => void;
   onUnsolved: () => void;
 }
@@ -47,6 +51,10 @@ interface FillBlankExerciseProps {
 export function FillBlankExercise({
   exercise,
   solved,
+  isReview,
+  isFavorite,
+  onToggleReview,
+  onToggleFavorite,
   onSolved,
   onUnsolved,
 }: FillBlankExerciseProps) {
@@ -93,8 +101,15 @@ export function FillBlankExercise({
     setValues(solution);
     setShowSolution(true);
     setChecked(false);
-    setStatus("Solution shown — clear and try again.");
+    setStatus("Solution shown — hit Clear to try again.");
   }, [blankIds, exercise.answers]);
+
+  const handleClear = useCallback(() => {
+    setValues(Object.fromEntries(blankIds.map((id) => [id, ""])));
+    setShowSolution(false);
+    setChecked(false);
+    setStatus(null);
+  }, [blankIds]);
 
   const handleExerciseReset = useCallback(() => {
     onUnsolved();
@@ -173,8 +188,24 @@ export function FillBlankExercise({
       title={exercise.title}
       note={exercise.note}
       solved={solved}
+      isReview={isReview}
+      isFavorite={isFavorite}
+      onToggleReview={onToggleReview}
+      onToggleFavorite={onToggleFavorite}
       onReset={solved ? handleExerciseReset : undefined}
     >
+      {exercise.given.length > 0 && (
+        <div className="rounded-lg border border-border bg-ink/50 p-4 mb-3 space-y-1">
+          <p className="text-[10px] font-medium uppercase tracking-wide text-muted mb-2">
+            Given (already defined)
+          </p>
+          {exercise.given.map((line, i) => (
+            <div key={i}>
+              <CodeLine line={line} />
+            </div>
+          ))}
+        </div>
+      )}
       <div className="rounded-lg border border-border bg-panel-2 p-4 space-y-1 overflow-x-auto">
         {lines.map((lineParts, i) => renderLine(lineParts, i))}
       </div>
@@ -204,13 +235,23 @@ export function FillBlankExercise({
         >
           Check
         </button>
-        <button
-          type="button"
-          onClick={handleShowSolution}
-          className="rounded-lg border border-border bg-panel-2 px-4 py-2 text-sm font-medium text-muted hover:text-text hover:bg-border/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber/60"
-        >
-          Show solution
-        </button>
+        {showSolution ? (
+          <button
+            type="button"
+            onClick={handleClear}
+            className="rounded-lg border border-amber/40 bg-amber/10 px-4 py-2 text-sm font-medium text-amber hover:bg-amber/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber/60"
+          >
+            Clear
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={handleShowSolution}
+            className="rounded-lg border border-border bg-panel-2 px-4 py-2 text-sm font-medium text-muted hover:text-text hover:bg-border/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber/60"
+          >
+            Show solution
+          </button>
+        )}
       </div>
     </ExerciseWindow>
   );

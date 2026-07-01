@@ -12,6 +12,8 @@
   --color-amber: #ffb454;
   --color-correct: #7fd88f;
   --color-incorrect: #ff7b72;
+  --color-review: #f9a8d4;
+  --color-favorite: #fcd34d;
 
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;

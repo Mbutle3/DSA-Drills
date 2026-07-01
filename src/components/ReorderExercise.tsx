@@ -108,6 +108,10 @@ function SortableLine({
 interface ReorderExerciseProps {
   exercise: ReorderExercise;
   solved: boolean;
+  isReview: boolean;
+  isFavorite: boolean;
+  onToggleReview: () => void;
+  onToggleFavorite: () => void;
   onSolved: () => void;
   onUnsolved: () => void;
 }
@@ -115,6 +119,10 @@ interface ReorderExerciseProps {
 export function ReorderExercise({
   exercise,
   solved,
+  isReview,
+  isFavorite,
+  onToggleReview,
+  onToggleFavorite,
   onSolved,
   onUnsolved,
 }: ReorderExerciseProps) {
@@ -172,8 +180,16 @@ export function ReorderExercise({
     setShowSolution(true);
     setChecked(false);
     setCorrectness(null);
-    setStatus("Solution shown — try shuffling and solving again.");
+    setStatus("Solution shown — hit Clear to try again.");
   }, [exercise.lines]);
+
+  const handleClear = useCallback(() => {
+    setOrder(shuffleIndices(exercise.lines.length));
+    setShowSolution(false);
+    setChecked(false);
+    setCorrectness(null);
+    setStatus(null);
+  }, [exercise.lines.length]);
 
   const handleExerciseReset = useCallback(() => {
     onUnsolved();
@@ -202,6 +218,10 @@ export function ReorderExercise({
       title={exercise.title}
       note={exercise.note}
       solved={solved}
+      isReview={isReview}
+      isFavorite={isFavorite}
+      onToggleReview={onToggleReview}
+      onToggleFavorite={onToggleFavorite}
       onReset={solved ? handleExerciseReset : undefined}
     >
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
@@ -244,17 +264,28 @@ export function ReorderExercise({
         <button
           type="button"
           onClick={handleShuffle}
-          className="rounded-lg border border-border bg-panel-2 px-4 py-2 text-sm font-medium text-text hover:bg-border/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky/60"
+          disabled={showSolution}
+          className="rounded-lg border border-border bg-panel-2 px-4 py-2 text-sm font-medium text-text hover:bg-border/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky/60 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Shuffle
         </button>
-        <button
-          type="button"
-          onClick={handleShowSolution}
-          className="rounded-lg border border-border bg-panel-2 px-4 py-2 text-sm font-medium text-muted hover:text-text hover:bg-border/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky/60"
-        >
-          Show solution
-        </button>
+        {showSolution ? (
+          <button
+            type="button"
+            onClick={handleClear}
+            className="rounded-lg border border-sky/40 bg-sky/10 px-4 py-2 text-sm font-medium text-sky hover:bg-sky/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky/60"
+          >
+            Clear
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={handleShowSolution}
+            className="rounded-lg border border-border bg-panel-2 px-4 py-2 text-sm font-medium text-muted hover:text-text hover:bg-border/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky/60"
+          >
+            Show solution
+          </button>
+        )}
       </div>
     </ExerciseWindow>
   );
