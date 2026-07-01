@@ -35,7 +35,8 @@ export type OneLinerGroupId =
   | "itertools-functools"
   | "matrices"
   | "heapq"
-  | "python-idioms";
+  | "python-idioms"
+  | "stdlib-interview";
 
 export interface ExerciseSection<G extends string, E extends Exercise = Exercise> {
   id: G;
