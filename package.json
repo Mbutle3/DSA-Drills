@@ -1,5 +1,6 @@
 {
   "name": "dsa-drills",
+  "description": "Self-quizzing web app for data structures, algorithms, and Python one-liners — reorder code, fill in blanks, and track progress locally.",
   "private": true,
   "version": "0.0.0",
   "type": "module",
