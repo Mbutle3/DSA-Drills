@@ -11,6 +11,8 @@ Use the **sun/moon toggle** in the header to switch between dark and light mode.
 
 Each main category tab (Data Structures, Algorithms, Python One-Liners) has **topic filter chips** below the tabs — use them to focus on one group at a time (e.g. Trees, Dynamic Programming, Strings) or show **All** to see every group.
 
+The **Cheat Sheet** tab summarizes every drill group with mnemonics, “when to use” cues, and a quick **pattern picker** (signal → pattern). Content lives in `src/data/cheatSheet.ts`.
+
 ## Setup
 
 ```bash

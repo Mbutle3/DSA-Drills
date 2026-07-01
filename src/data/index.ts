@@ -33,9 +33,15 @@ export const ALL_EXERCISES: Exercise[] = [
 export const TOTAL_EXERCISES = ALL_EXERCISES.length;
 
 export { DS_SECTIONS, ALGO_SECTIONS, ONE_LINER_SECTIONS, oneLiners };
+export {
+  CHEAT_SHEET_PATTERN_PICKER,
+  CHEAT_SHEET_SECTIONS,
+} from "./cheatSheet";
 export type {
   AlgoGroupId,
   Category,
+  CheatSheetEntry,
+  CheatSheetSection,
   DsGroupId,
   Exercise,
   ExerciseSection,

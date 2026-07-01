@@ -6,6 +6,7 @@ import { SectionFilter } from "./components/SectionFilter";
 import { ReorderExercise } from "./components/ReorderExercise";
 import { FillBlankExercise } from "./components/FillBlankExercise";
 import { ExerciseGroupSection } from "./components/ExerciseGroupSection";
+import { CheatSheetPage } from "./components/CheatSheetPage";
 import { useProgress } from "./hooks/useProgress";
 import { useExerciseTags } from "./hooks/useExerciseTags";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -232,7 +233,11 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (activeTab !== "ds" && activeTab !== "algo" && activeTab !== "oneliner") {
+    if (
+      activeTab !== "ds" &&
+      activeTab !== "algo" &&
+      activeTab !== "oneliner"
+    ) {
       return;
     }
     const sections = EXERCISE_SECTIONS[activeTab];
@@ -328,6 +333,7 @@ export default function App() {
           emptyHint="Tap the ☆ on any exercise to save it here. Tap ★ to remove it."
           {...panelProps}
         />
+        <CheatSheetPage active={activeTab === "cheatsheet"} />
       </div>
     </div>
   );

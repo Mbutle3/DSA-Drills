@@ -14,6 +14,7 @@
   --color-incorrect: var(--app-incorrect);
   --color-review: var(--app-review);
   --color-favorite: var(--app-favorite);
+  --color-emerald: var(--app-emerald);
 
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
@@ -34,6 +35,7 @@
   --app-incorrect: #ff7b72;
   --app-review: #f9a8d4;
   --app-favorite: #fcd34d;
+  --app-emerald: #34d399;
   --dot-grid-color: rgba(255, 255, 255, 0.04);
 }
 
@@ -51,6 +53,7 @@
   --app-incorrect: #dc2626;
   --app-review: #db2777;
   --app-favorite: #a16207;
+  --app-emerald: #059669;
   --dot-grid-color: rgba(0, 0, 0, 0.06);
 }
 
