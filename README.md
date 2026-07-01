@@ -28,12 +28,18 @@ Open the URL shown in the terminal (typically `http://localhost:5173`).
 npm run build
 ```
 
-Static output lands in `dist/` — deploy to Netlify, Vercel, GitHub Pages, or any static host.
+Static output lands in `dist/` — deploy to Netlify, Vercel, or any static host.
 
-Preview the production build locally:
+### GitHub Pages
+
+Live site: **https://mbutle3.github.io/DSA-Drills/**
+
+Pushes to `main` deploy automatically via [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml). In repo settings, **Pages → Build and deployment → Source** should be **GitHub Actions**.
+
+To preview the production base path locally:
 
 ```bash
-npm run preview
+VITE_BASE_PATH=/DSA-Drills/ npm run build && npm run preview
 ```
 
 ## Adding a new exercise
