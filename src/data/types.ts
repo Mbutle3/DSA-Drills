@@ -2,6 +2,8 @@ export type Category = "ds" | "algo" | "oneliner";
 
 export type TabId = Category | "review" | "favorites" | "cheatsheet";
 
+export type SolveStatus = "all" | "unsolved" | "solved";
+
 export type DsGroupId =
   | "stacks-queues"
   | "lists"
